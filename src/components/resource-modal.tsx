@@ -11,7 +11,6 @@ import {
   Image as ImageIcon,
   Package,
 } from "lucide-react";
-import { EmojiPicker } from "@ferrucc-io/emoji-picker";
 import toast from "react-hot-toast";
 import type { ResourceDto } from "@/types";
 import { CATEGORIES, categoryStyle, cn } from "@/lib/utils";
