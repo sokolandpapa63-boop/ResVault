@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -11,10 +12,20 @@ import {
   Image as ImageIcon,
   Package,
 } from "lucide-react";
-import EmojiPicker, { Theme } from "emoji-picker-react";
 import toast from "react-hot-toast";
 import type { ResourceDto } from "@/types";
 import { CATEGORIES, categoryStyle, cn } from "@/lib/utils";
+
+// Динамическая загрузка — только на клиенте, чтобы не крашить SSR
+const EmojiPicker = dynamic(
+  () => import("emoji-picker-react").then((mod) => mod.default),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[320px] animate-pulse rounded-2xl bg-white/5" />
+    ),
+  },
+);
 
 interface Props {
   open: boolean;
@@ -304,8 +315,10 @@ export function ResourceModal({ open, initial, onClose, onSaved }: Props) {
                 {visualTab === "emoji" ? (
                   <div className="overflow-hidden rounded-2xl border border-white/8">
                     <EmojiPicker
-                      theme={Theme.DARK}
-                      onEmojiClick={(emojiData) => setEmoji(emojiData.emoji)}
+                      theme={"dark" as never}
+                      onEmojiClick={(emojiData: { emoji: string }) =>
+                        setEmoji(emojiData.emoji)
+                      }
                       lazyLoadEmojis={true}
                       height={320}
                       width="100%"
