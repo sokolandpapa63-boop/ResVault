@@ -186,49 +186,47 @@ export function DashboardClient({ userName }: { userName: string }) {
       </section>
 
       {/* controls */}
-      <section className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="relative flex-1">
-          <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-zinc-500" />
-          <input
-            className="field pl-10"
-            placeholder="Поиск по названию или описанию…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </div>
-        <div className="flex gap-3">
-          <select
-            className="field w-auto min-w-[130px] flex-1 sm:flex-none"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="all">Все категории</option>
-            {CATEGORIES.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-          <select
-            className="field w-auto min-w-[130px] flex-1 sm:flex-none"
-            value={sort}
-            onChange={(e) => setSort(e.target.value as SortKey)}
-          >
-            <option value="date">По дате</option>
-            <option value="name">По названию</option>
-            <option value="value">По значению</option>
-          </select>
-          <button
-            onClick={() => setModal({ open: true, initial: null })}
-            className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-2.5 text-sm font-semibold whitespace-nowrap text-white shadow-[0_8px_30px_-8px_rgba(168,85,247,0.8)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_8px_40px_-6px_rgba(168,85,247,0.9)]"
-          >
-            <Plus className="h-4 w-4" />
-            <span className="hidden sm:inline">Добавить ресурс</span>
-            <span className="sm:hidden">Ресурс</span>
-          </button>
-        </div>
-      </section>
-
+<section className="mt-8 flex flex-col gap-3 lg:flex-row lg:items-center">
+  <div className="relative flex-1">
+    <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+    <input
+      className="field pl-10"
+      placeholder="Поиск по названию или описанию…"
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
+  </div>
+  <div className="flex flex-wrap gap-3">
+    <select
+      className="field w-auto min-w-[130px] flex-1 sm:flex-none"
+      value={category}
+      onChange={(e) => setCategory(e.target.value)}
+    >
+      <option value="all">Все категории</option>
+      {CATEGORIES.map((c) => (
+        <option key={c} value={c}>
+          {c}
+        </option>
+      ))}
+    </select>
+    <select
+      className="field w-auto min-w-[130px] flex-1 sm:flex-none"
+      value={sort}
+      onChange={(e) => setSort(e.target.value as SortKey)}
+    >
+      <option value="date">По дате</option>
+      <option value="name">По названию</option>
+      <option value="value">По значению</option>
+    </select>
+    <button
+      onClick={() => setModal({ open: true, initial: null })}
+      className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-white shadow-[0_8px_30px_-8px_rgba(168,85,247,0.8)] transition-all duration-300 hover:brightness-110 sm:w-auto"
+    >
+      <Plus className="h-4 w-4" />
+      Добавить ресурс
+    </button>
+  </div>
+</section>
       {/* grid */}
       <section className="mt-6">
         {resources === null ? (
