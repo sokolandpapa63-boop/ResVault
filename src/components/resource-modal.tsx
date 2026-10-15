@@ -11,9 +11,10 @@ import {
   Image as ImageIcon,
   Package,
 } from "lucide-react";
+import EmojiPicker, { Theme } from "emoji-picker-react";
 import toast from "react-hot-toast";
 import type { ResourceDto } from "@/types";
-import { CATEGORIES, EMOJI_CHOICES, categoryStyle, cn } from "@/lib/utils";
+import { CATEGORIES, categoryStyle, cn } from "@/lib/utils";
 
 interface Props {
   open: boolean;
@@ -301,22 +302,16 @@ export function ResourceModal({ open, initial, onClose, onSaved }: Props) {
                 </div>
 
                 {visualTab === "emoji" ? (
-                  <div className="grid grid-cols-8 gap-1.5">
-                    {EMOJI_CHOICES.map((em) => (
-                      <button
-                        key={em}
-                        type="button"
-                        onClick={() => setEmoji(emoji === em ? null : em)}
-                        className={cn(
-                          "flex h-9 items-center justify-center rounded-xl border text-lg transition-all duration-150",
-                          emoji === em
-                            ? "border-violet-400/60 bg-violet-500/20 scale-110"
-                            : "border-white/6 bg-white/3 hover:bg-white/8",
-                        )}
-                      >
-                        {em}
-                      </button>
-                    ))}
+                  <div className="overflow-hidden rounded-2xl border border-white/8">
+                    <EmojiPicker
+                      theme={Theme.DARK}
+                      onEmojiClick={(emojiData) => setEmoji(emojiData.emoji)}
+                      lazyLoadEmojis={true}
+                      height={320}
+                      width="100%"
+                      previewConfig={{ showPreview: false }}
+                      searchPlaceHolder="Поиск эмодзи…"
+                    />
                   </div>
                 ) : (
                   <div>
