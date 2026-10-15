@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -12,24 +11,14 @@ import {
   Image as ImageIcon,
   Package,
 } from "lucide-react";
+import { EmojiPicker } from "@ferrucc-io/emoji-picker";
 import toast from "react-hot-toast";
 import type { ResourceDto } from "@/types";
 import { CATEGORIES, categoryStyle, cn } from "@/lib/utils";
 
-// Динамическая загрузка — только на клиенте, чтобы не крашить SSR
-const EmojiPicker = dynamic(
-  () => import("emoji-picker-react").then((mod) => mod.default),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-[320px] animate-pulse rounded-2xl bg-white/5" />
-    ),
-  },
-);
-
 interface Props {
   open: boolean;
-  initial: ResourceDto | null; // null → create
+  initial: ResourceDto | null;
   onClose: () => void;
   onSaved: (r: ResourceDto, isEdit: boolean) => void;
 }
@@ -177,7 +166,6 @@ export function ResourceModal({ open, initial, onClose, onSaved }: Props) {
           >
             <div className="flex items-center justify-between border-b border-white/8 px-6 py-4">
               <div className="flex items-center gap-3">
-                {/* live preview */}
                 <span
                   className={cn(
                     "flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border text-xl",
@@ -314,17 +302,17 @@ export function ResourceModal({ open, initial, onClose, onSaved }: Props) {
 
                 {visualTab === "emoji" ? (
                   <div className="overflow-hidden rounded-2xl border border-white/8">
-                    <EmojiPicker
-                      theme={"dark" as never}
-                      onEmojiClick={(emojiData: { emoji: string }) =>
-                        setEmoji(emojiData.emoji)
-                      }
-                      lazyLoadEmojis={true}
-                      height={320}
-                      width="100%"
-                      previewConfig={{ showPreview: false }}
-                      searchPlaceHolder="Поиск эмодзи…"
-                    />
+                    <EmojiPicker onEmojiSelect={(emoji: string) => setEmoji(emoji)}>
+                      <EmojiPicker.Header className="p-2 pb-0">
+                        <EmojiPicker.Input
+                          placeholder="Поиск эмодзи…"
+                          className="field"
+                        />
+                      </EmojiPicker.Header>
+                      <EmojiPicker.Group>
+                        <EmojiPicker.List containerHeight={320} />
+                      </EmojiPicker.Group>
+                    </EmojiPicker>
                   </div>
                 ) : (
                   <div>
